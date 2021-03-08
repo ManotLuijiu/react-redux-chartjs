@@ -1,8 +1,16 @@
-import React from "react";
-import CartItem from "./CartItem";
-import { connect } from "react-redux";
-import { CLEAR_CART, GET_TOTALS } from "../actions";
+import React from 'react';
+import CartItem from './CartItem';
+import { connect } from 'react-redux';
+import { CLEAR_CART, GET_TOTALS } from '../actions';
+import NumberWithCommas from './NumberWithCommas';
+
 const CartContainer = ({ cart = [], total, dispatch }) => {
+  console.log('CartContainer', total);
+  console.log('CartContainer', typeof total);
+  // function numberWithCommas(x) {
+  //   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+  // }
+
   React.useEffect(() => {
     dispatch({ type: GET_TOTALS });
   }, [cart, dispatch]);
@@ -11,8 +19,8 @@ const CartContainer = ({ cart = [], total, dispatch }) => {
       <section className="cart">
         {/* cart header */}
         <header>
-          <h2>your bag</h2>
-          <h4 className="empty-cart">is currently empty</h4>
+          <h2>ตะกร้าสินค้า</h2>
+          <h4 className="empty-cart">ไม่มีสินค้าในตะกร้า</h4>
         </header>
       </section>
     );
@@ -21,11 +29,11 @@ const CartContainer = ({ cart = [], total, dispatch }) => {
     <section className="cart">
       {/* cart header */}
       <header>
-        <h2>your bag</h2>
+        <h2>ตะกร้าสินค้า</h2>
       </header>
       {/* cart items */}
       <article>
-        {cart.map(item => {
+        {cart.map((item) => {
           return <CartItem key={item.id} {...item} />;
         })}
       </article>
@@ -34,14 +42,17 @@ const CartContainer = ({ cart = [], total, dispatch }) => {
         <hr />
         <div className="cart-total">
           <h4>
-            total <span>${total}</span>
+            รวมทั้งหมด{' '}
+            <span>
+              <NumberWithCommas x={JSON.stringify(total)} /> บาท
+            </span>
           </h4>
         </div>
         <button
           className="btn clear-btn"
           onClick={() => dispatch({ type: CLEAR_CART })}
         >
-          clear cart
+          ล้างตะกร้า
         </button>
       </footer>
     </section>
